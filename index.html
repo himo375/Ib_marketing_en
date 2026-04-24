@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IB Marketing — Ibrahim Marketing Agency</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- ══════════════════════════════════════════════════════════
+       GOOGLE APPS SCRIPT SETUP INSTRUCTIONS
+       ══════════════════════════════════════════════════════════
+       1. Go to: https://script.google.com/
+       2. Click "New Project"
+       3. Paste this code:
+
+       function doPost(e) {
+         try {
+           var data = JSON.parse(e.postData.contents);
+           var sheet = SpreadsheetApp
+             .openById('1dikBvERfS_hN6RK06CgRbkbpkW5aBLIz6YSrwpsezAk')
+             .getActiveSheet();
+           sheet.appendRow([
+             new Date().toLocaleString(),
+             data.name || '',
+             data.phone || '',
+             data.email || '',
+             data.company || '',
+             data.industry || '',
+             data.message || ''
+           ]);
+           return ContentService
+             .createTextOutput(JSON.stringify({result:'success'}))
+             .setMimeType(ContentService.MimeType.JSON);
+         } catch(err) {
+           return ContentService
+             .createTextOutput(JSON.stringify({result:'error',error:err.toString()}))
+             .setMimeType(ContentService.MimeType.JSON);
+         }
+       }
+       function doGet(e) {
+         return ContentService.createTextOutput('OK');
+       }
+
+       4. Click Deploy → New Deployment → Web App
+       5. Execute as: Me | Who has access: Anyone
+       6. Copy the deployment URL and paste it below as APPS_SCRIPT_URL
+       ══════════════════════════════════════════════════════════ -->
+
+  <style>
+    :root {
+      --orange: #E8441A;
+      --blue:   #1E5FA8;
+      --navy:   #1C3461;
+    }
+    * { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1C3461;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1,h2,h3,h4 { font-family: 'Montserrat', sans-serif; }
+
+    /* ── Dot grid ── */
+    .dot-grid {
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* ── Sticky nav ── */
+    #navbar {
+      transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(255,255,255,0.97) !important;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(28,52,97,0.08), 0 4px 24px rgba(28,52,97,0.07);
+    }
+    .nav-link {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .875rem; font-weight: 600;
+      color: #fff; letter-spacing: .02em;
+      position: relative;
+      transition: color .2s ease;
+    }
+    #navbar.scrolled .nav-link { color: #1C3461; }
+    .nav-link::after {
+      content: ''; position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 2px;
+      background: #E8441A; border-radius: 2px;
+      transition: width .25s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:hover { color: #E8441A; }
+    /* Hamburger color */
+    #hamburger { color: #fff; transition: color .3s ease; }
+    #navbar.scrolled #hamburger { color: #1C3461; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-block;
+      background: #E8441A; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      letter-spacing: .02em; border-radius: 12px;
+      padding: 14px 32px; font-size: .9375rem;
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease, background .2s ease;
+      box-shadow: 0 4px 20px rgba(232,68,26,.3);
+    }
+    .btn-primary:hover { background:#d43d17; transform:translateY(-3px); box-shadow:0 10px 36px rgba(232,68,26,.42); }
+    .btn-primary:active { transform:translateY(0); }
+    .btn-primary:focus-visible { outline:3px solid rgba(232,68,26,.5); outline-offset:3px; }
+    .btn-ghost {
+      display: inline-block; background: transparent; color: #fff;
+      font-family: 'Montserrat', sans-serif; font-weight: 600;
+      border-radius: 12px; padding: 13px 32px; font-size: .9375rem;
+      border: 2px solid rgba(255,255,255,.35);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .btn-ghost:hover { border-color:rgba(255,255,255,.85); background:rgba(255,255,255,.09); transform:translateY(-2px); }
+    .btn-white {
+      display: inline-block; background:#fff; color:#E8441A;
+      font-family: 'Montserrat', sans-serif; font-weight: 800;
+      border-radius: 14px; padding: 18px 40px; font-size: 1rem;
+      box-shadow: 0 8px 40px rgba(0,0,0,.14);
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
+    }
+    .btn-white:hover { transform:translateY(-4px); box-shadow:0 18px 60px rgba(0,0,0,.2); }
+
+    /* ── Cards ── */
+    .card {
+      background:#fff; border-radius:20px;
+      border:1px solid rgba(28,52,97,.07);
+      box-shadow:0 2px 8px rgba(28,52,97,.05),0 1px 3px rgba(28,52,97,.04);
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease,border-color .3s ease;
+    }
+    .card:hover {
+      transform:translateY(-6px);
+      border-color:rgba(232,68,26,.25);
+      box-shadow:0 20px 56px rgba(232,68,26,.1),0 4px 16px rgba(28,52,97,.07);
+    }
+    .process-card {
+      background:#fff; border-radius:20px;
+      border:1px solid rgba(28,52,97,.07);
+      box-shadow:0 2px 8px rgba(28,52,97,.05);
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease;
+    }
+    .process-card:hover { transform:translateY(-5px); box-shadow:0 16px 48px rgba(28,52,97,.12); }
+    .testi-dark {
+      background:#1C3461; border-radius:20px;
+      box-shadow:0 12px 48px rgba(28,52,97,.3);
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .testi-dark:hover { transform:translateY(-6px); }
+    .testi-light {
+      background:#F8F7F5; border-radius:20px;
+      border:1px solid rgba(28,52,97,.06);
+      box-shadow:0 2px 10px rgba(28,52,97,.05);
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .testi-light:hover { transform:translateY(-6px); }
+
+    /* ── Section label ── */
+    .section-label {
+      display:inline-block; font-family:'Montserrat',sans-serif;
+      font-size:.75rem; font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; color:#E8441A; margin-bottom:16px;
+    }
+
+    /* ── Footer links ── */
+    .footer-link { color:#6b7280; font-size:.875rem; transition:color .2s ease; }
+    .footer-link:hover { color:#E8441A; }
+
+    /* ══════════════════════════════════════════════════════════
+       BRAND LOGOS MARQUEE BAR
+       ══════════════════════════════════════════════════════════ */
+    .brands-section { background:#F8F7F5; overflow:hidden; border-top:1px solid rgba(28,52,97,.07); border-bottom:1px solid rgba(28,52,97,.07); }
+    .brands-track {
+      display:flex; align-items:center;
+      gap:72px; width:max-content;
+      animation:marquee 45s linear infinite;
+      padding:28px 0;
+    }
+    .brands-section:hover .brands-track { animation-play-state:paused; }
+    @keyframes marquee {
+      from { transform:translateX(0); }
+      to   { transform:translateX(-50%); }
+    }
+    .brand-logo {
+      height:62px; width:auto; object-fit:contain; flex-shrink:0;
+      filter:grayscale(1) opacity(.55);
+      transition:filter .3s ease, transform .2s cubic-bezier(.34,1.56,.64,1);
+      cursor:pointer;
+    }
+    .brand-logo:hover { filter:grayscale(0) opacity(1); transform:scale(1.08); }
+
+    /* ══════════════════════════════════════════════════════════
+       HERO FORM
+       ══════════════════════════════════════════════════════════ */
+    .form-card {
+      background:#fff; border-radius:20px;
+      box-shadow:0 24px 80px rgba(0,0,0,.18),0 8px 24px rgba(0,0,0,.1);
+      padding:32px;
+    }
+    .form-input {
+      width:100%; border:1.5px solid rgba(28,52,97,.18);
+      border-radius:10px; padding:12px 16px;
+      font-family:'Inter',sans-serif; font-size:.9rem; color:#1C3461;
+      background:#fff; outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    .form-input:focus {
+      border-color:#E8441A;
+      box-shadow:0 0 0 3px rgba(232,68,26,.12);
+    }
+    .form-input::placeholder { color:#9ca3af; }
+    .form-submit {
+      width:100%; background:#E8441A; color:#fff;
+      font-family:'Montserrat',sans-serif; font-weight:700;
+      border:none; border-radius:12px; padding:15px;
+      font-size:1rem; cursor:pointer;
+      box-shadow:0 6px 24px rgba(232,68,26,.38);
+      transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease, background .2s ease;
+    }
+    .form-submit:hover { background:#d43d17; transform:translateY(-2px); box-shadow:0 10px 32px rgba(232,68,26,.45); }
+    .form-submit:active { transform:translateY(0); }
+
+    /* ══════════════════════════════════════════════════════════
+       RESULTS GALLERY
+       ══════════════════════════════════════════════════════════ */
+    .result-img {
+      border-radius:12px; overflow:hidden; cursor:pointer;
+      box-shadow:0 4px 20px rgba(0,0,0,.2);
+      transition:transform .3s ease, box-shadow .3s ease;
+    }
+    .result-img:hover { transform:scale(1.02); box-shadow:0 12px 40px rgba(0,0,0,.3); }
+    .result-img img { width:100%; display:block; }
+
+    /* Lightbox */
+    #lightbox {
+      display:none; position:fixed; inset:0; z-index:9999;
+      background:rgba(0,0,0,.92); cursor:pointer;
+      align-items:center; justify-content:center; padding:24px;
+    }
+    #lightbox.open { display:flex; }
+    #lightbox img { max-width:100%; max-height:90vh; border-radius:12px; object-fit:contain; }
+    #lightbox-close {
+      position:absolute; top:20px; right:24px;
+      color:#fff; font-size:2rem; cursor:pointer;
+      font-weight:300; line-height:1;
+      transition:color .2s ease;
+    }
+    #lightbox-close:hover { color:#E8441A; }
+
+    /* Platform tab buttons */
+    .platform-tab {
+      font-family:'Montserrat',sans-serif; font-size:.8125rem; font-weight:700;
+      border-radius:100px; padding:8px 20px; cursor:pointer;
+      transition:all .2s ease; border:2px solid transparent;
+      white-space:nowrap;
+    }
+    .platform-tab.active { background:#E8441A; color:#fff; box-shadow:0 4px 16px rgba(232,68,26,.35); }
+    .platform-tab:not(.active) { background:rgba(255,255,255,.08); color:rgba(255,255,255,.65); border-color:rgba(255,255,255,.15); }
+    .platform-tab:not(.active):hover { background:rgba(255,255,255,.14); color:#fff; }
+    .platform-panel { display:none; }
+    .platform-panel.active { display:block; }
+
+    /* ══════════════════════════════════════════════════════════
+       STICKY FLOATING BUTTONS
+       ══════════════════════════════════════════════════════════ */
+    .sticky-btns {
+      position:fixed; bottom:32px; right:24px; z-index:1000;
+      display:flex; flex-direction:column; gap:12px; align-items:flex-end;
+    }
+    .sticky-btn {
+      width:52px; height:52px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; text-decoration:none;
+      box-shadow:0 6px 24px rgba(0,0,0,.2);
+      transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
+      position:relative;
+    }
+    .sticky-btn:hover { transform:scale(1.12) translateY(-2px); box-shadow:0 12px 36px rgba(0,0,0,.28); }
+    .sticky-btn-phone { background:#E8441A; }
+    .sticky-btn-email { background:#1C3461; }
+    .sticky-btn-label {
+      position:absolute; right:60px;
+      background:#1C3461; color:#fff;
+      font-family:'Montserrat',sans-serif; font-size:.75rem; font-weight:600;
+      padding:6px 14px; border-radius:8px; white-space:nowrap;
+      opacity:0; transform:translateX(8px);
+      transition:opacity .2s ease, transform .2s ease;
+      pointer-events:none;
+      box-shadow:0 4px 16px rgba(28,52,97,.25);
+    }
+    .sticky-btn:hover .sticky-btn-label { opacity:1; transform:translateX(0); }
+
+    /* ══════════════════════════════════════════════════════════
+       ABOUT SECTION
+       ══════════════════════════════════════════════════════════ */
+    .check-dot {
+      width:24px; height:24px; border-radius:50%; background:#E8441A;
+      flex-shrink:0; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 12px rgba(232,68,26,.35);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       MOBILE MENU
+       ══════════════════════════════════════════════════════════ */
+    #mobile-menu { display:none; }
+    #mobile-menu.open { display:flex; }
+
+    /* Pulse animation */
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     STICKY FLOATING BUTTONS
+═══════════════════════════════════════════════════════════════ -->
+<div class="sticky-btns">
+  <a href="tel:+16474909182" class="sticky-btn sticky-btn-phone" aria-label="Call us">
+    <span class="sticky-btn-label">+1 647 490 9182</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  </a>
+  <a href="mailto:info@ibrahim-marketing.com" class="sticky-btn sticky-btn-email" aria-label="Email us">
+    <span class="sticky-btn-label">info@ibrahim-marketing.com</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+      <polyline points="22,6 12,13 2,6"/>
+    </svg>
+  </a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LIGHTBOX
+═══════════════════════════════════════════════════════════════ -->
+<div id="lightbox">
+  <span id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="Result screenshot">
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NAV
+═══════════════════════════════════════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-5" style="background:transparent;">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+    <a href="#" class="flex-shrink-0">
+      <img id="nav-logo" src="brand_assets/dark background.png" alt="Ibrahim Marketing" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#about"    class="nav-link">About</a>
+      <a href="#process"  class="nav-link">Process</a>
+      <a href="#results"  class="nav-link">Results</a>
+      <a href="#demo-form" class="btn-primary !py-3 !px-6 !text-sm">Get Started</a>
+    </div>
+    <button id="hamburger" class="md:hidden p-2 focus-visible:outline-none rounded-lg" aria-label="Toggle menu">
+      <svg id="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M3 12h18M3 6h18M3 18h18"/>
+      </svg>
+      <svg id="icon-close" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="md:hidden absolute top-full left-0 right-0 flex-col px-6 pb-6 pt-4 gap-2 border-t border-white/10"
+       style="background:rgba(28,52,97,0.98); backdrop-filter:blur(16px);">
+    <a href="#services" class="block py-3 text-white font-semibold text-sm border-b border-white/10">Services</a>
+    <a href="#about"    class="block py-3 text-white font-semibold text-sm border-b border-white/10">About</a>
+    <a href="#process"  class="block py-3 text-white font-semibold text-sm border-b border-white/10">Process</a>
+    <a href="#results"  class="block py-3 text-white font-semibold text-sm border-b border-white/10">Results</a>
+    <a href="#demo-form" class="btn-primary mt-4 text-center !py-3">Get Started</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════════ -->
+<section class="relative bg-[#1C3461] dot-grid overflow-hidden" style="min-height:800px;">
+
+  <!-- Depth radial layers -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute -top-32 -right-32 w-[700px] h-[700px] rounded-full"
+         style="background:radial-gradient(circle,rgba(30,95,168,.55),transparent 70%);"></div>
+    <div class="absolute bottom-0 -left-24 w-[500px] h-[500px] rounded-full"
+         style="background:radial-gradient(circle,rgba(232,68,26,.2),transparent 70%);"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-6 py-20 pt-32 flex flex-col lg:flex-row gap-12 items-center w-full">
+
+    <!-- ── RIGHT: Form Card ── -->
+    <div class="w-full lg:w-[42%] order-2 lg:order-2" id="demo-form">
+      <div class="form-card">
+        <!-- Form header -->
+        <div style="margin-bottom:24px;">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,68,26,.1);border-radius:100px;padding:6px 14px;margin-bottom:12px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#E8441A;animation:pulse 2s infinite;display:block;"></span>
+            <span style="font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:#E8441A;letter-spacing:.08em;text-transform:uppercase;">Limited Spots Available</span>
+          </div>
+          <h2 style="font-family:'Montserrat',sans-serif;font-size:1.5rem;font-weight:900;color:#1C3461;letter-spacing:-.02em;line-height:1.2;margin-bottom:6px;">
+            Book Your Free<br><span style="color:#E8441A;">14-Day Demo</span>
+          </h2>
+          <p style="font-size:.875rem;color:#6b7280;line-height:1.6;">No commitment, no credit card. Just a clear growth plan for your brand.</p>
+        </div>
+
+        <form id="lead-form" onsubmit="handleFormSubmit(event)" novalidate>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <input type="text"    name="name"    class="form-input" placeholder="Full Name *"           required>
+            <input type="tel"     name="phone"   class="form-input" placeholder="Phone Number *"        required>
+            <input type="email"   name="email"   class="form-input" placeholder="Email Address *"       required>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <input type="text"  name="company" class="form-input" placeholder="Company Name *"        required>
+              <input type="text"  name="industry"class="form-input" placeholder="Industry *"            required>
+            </div>
+            <textarea name="message" class="form-input" placeholder="Tell us about your goals..." rows="3" style="resize:vertical;"></textarea>
+            <button type="submit" class="form-submit" id="submit-btn">
+              Claim My Free Demo &rarr;
+            </button>
+            <p style="text-align:center;font-size:.75rem;color:#9ca3af;margin-top:4px;">
+              🔒 Your information is safe and will never be shared.
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── LEFT: Hero Content ── -->
+    <div class="w-full lg:w-[58%] order-1 lg:order-1">
+      <h1 style="font-family:'Montserrat',sans-serif;font-size:clamp(2.4rem,5vw,4.2rem);font-weight:900;color:#fff;line-height:1.04;letter-spacing:-.03em;margin-bottom:24px;">
+        We Turn Brands Into<br>
+        <span style="color:#E8441A;">Market Leaders.</span>
+      </h1>
+      <p style="font-size:1.0625rem;color:rgba(255,255,255,.65);line-height:1.75;max-width:500px;margin-bottom:36px;">
+        IB Marketing crafts data-driven strategies that build authority, generate leads, and scale revenue — for businesses that refuse to be ordinary.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:48px;">
+        <a href="#demo-form" class="btn-primary">Start Your Growth &rarr;</a>
+        <a href="#services"  class="btn-ghost">Explore Services</a>
+      </div>
+
+      <!-- Stats bar -->
+      <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:32px;display:flex;flex-wrap:wrap;gap:40px;">
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;color:#fff;line-height:1;">30<span style="color:#E8441A;">+</span></div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.45);margin-top:4px;font-weight:500;">Brands Scaled</div>
+        </div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;color:#fff;line-height:1;">4<span style="color:#E8441A;">+</span></div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.45);margin-top:4px;font-weight:500;">Years of Excellence</div>
+        </div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;color:#fff;line-height:1;">$10M<span style="color:#E8441A;">+</span></div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.45);margin-top:4px;font-weight:500;">Revenue Generated</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BRAND LOGOS MARQUEE BAR
+═══════════════════════════════════════════════════════════════ -->
+<div class="brands-section py-2">
+  <p style="text-align:center;font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#9ca3af;padding-top:18px;padding-bottom:4px;">Brands We've Grown</p>
+  <div style="overflow:hidden;">
+    <div class="brands-track">
+      <!-- Set 1 -->
+      <img src="brand_assets/frst colour.png"  class="brand-logo" alt="Brand 1">
+      <img src="brand_assets/Scnd Color.png"   class="brand-logo" alt="Brand 2">
+      <img src="brand_assets/Thrd color.png"   class="brand-logo" alt="Brand 3">
+      <img src="brand_assets/4th color.png"    class="brand-logo" alt="Brand 4">
+      <img src="brand_assets/5th color.png"    class="brand-logo" alt="Brand 5">
+      <img src="brand_assets/6th color.png"    class="brand-logo" alt="Brand 6">
+      <img src="brand_assets/7th W.B.png"      class="brand-logo" alt="Brand 7">
+      <img src="brand_assets/8th Color.png"    class="brand-logo" alt="Brand 8">
+      <img src="brand_assets/9th color.png"    class="brand-logo" alt="Brand 9">
+      <img src="brand_assets/10th color.png"   class="brand-logo" alt="Brand 10">
+      <!-- Set 2 — duplicate for seamless loop -->
+      <img src="brand_assets/frst colour.png"  class="brand-logo" alt="Brand 1">
+      <img src="brand_assets/Scnd Color.png"   class="brand-logo" alt="Brand 2">
+      <img src="brand_assets/Thrd color.png"   class="brand-logo" alt="Brand 3">
+      <img src="brand_assets/4th color.png"    class="brand-logo" alt="Brand 4">
+      <img src="brand_assets/5th color.png"    class="brand-logo" alt="Brand 5">
+      <img src="brand_assets/6th color.png"    class="brand-logo" alt="Brand 6">
+      <img src="brand_assets/7th W.B.png"      class="brand-logo" alt="Brand 7">
+      <img src="brand_assets/8th Color.png"    class="brand-logo" alt="Brand 8">
+      <img src="brand_assets/9th color.png"    class="brand-logo" alt="Brand 9">
+      <img src="brand_assets/10th color.png"   class="brand-logo" alt="Brand 10">
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SERVICES
+═══════════════════════════════════════════════════════════════ -->
+<section id="services" class="py-28 bg-[#F8F7F5]">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-20">
+      <span class="section-label">What We Do</span>
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:#1C3461;letter-spacing:-.03em;line-height:1.1;margin-bottom:16px;">
+        Full-Spectrum Marketing<br>That Delivers Results
+      </h2>
+      <p style="font-size:1.0625rem;color:#6b7280;line-height:1.75;max-width:500px;margin:0 auto;">
+        Every service we offer is built around one goal: measurable, sustainable growth.
+      </p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <article class="card p-8 cursor-default">
+        <div style="width:52px;height:52px;border-radius:14px;background:rgba(232,68,26,.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8441A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:10px;">Brand Strategy</h3>
+        <p style="color:#6b7280;line-height:1.75;font-size:.9375rem;">We define your brand's positioning, voice, and identity so you stand apart in a crowded market.</p>
+      </article>
+      <article class="card p-8 cursor-default">
+        <div style="width:52px;height:52px;border-radius:14px;background:rgba(30,95,168,.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E5FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:10px;">Digital Marketing</h3>
+        <p style="color:#6b7280;line-height:1.75;font-size:.9375rem;">Multi-channel campaigns across search, display, and content that drive qualified traffic and convert.</p>
+      </article>
+      <article class="card p-8 cursor-default">
+        <div style="width:52px;height:52px;border-radius:14px;background:rgba(232,68,26,.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8441A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:10px;">Social Media Management</h3>
+        <p style="color:#6b7280;line-height:1.75;font-size:.9375rem;">From content creation to community management — we grow your presence where your audience lives.</p>
+      </article>
+      <article class="card p-8 cursor-default">
+        <div style="width:52px;height:52px;border-radius:14px;background:rgba(30,95,168,.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E5FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:10px;">Content Creation</h3>
+        <p style="color:#6b7280;line-height:1.75;font-size:.9375rem;">Compelling copy, video scripts, and visual content that tells your brand story and moves people to act.</p>
+      </article>
+      <article class="card p-8 cursor-default">
+        <div style="width:52px;height:52px;border-radius:14px;background:rgba(232,68,26,.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8441A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:10px;">SEO &amp; Analytics</h3>
+        <p style="color:#6b7280;line-height:1.75;font-size:.9375rem;">Data-backed SEO strategies and transparent dashboards so you always know what's driving results.</p>
+      </article>
+      <article class="card p-8 cursor-default">
+        <div style="width:52px;height:52px;border-radius:14px;background:rgba(30,95,168,.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E5FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:10px;">Paid Advertising</h3>
+        <p style="color:#6b7280;line-height:1.75;font-size:.9375rem;">Google, Meta, TikTok, Snapchat — high-ROI ad campaigns optimized for your exact growth objectives.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════════════════════════ -->
+<section id="about" class="py-28 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-20 items-center">
+
+      <!-- Left: visual -->
+      <div class="relative order-2 lg:order-1">
+        <div class="absolute -top-8 -left-8 w-20 h-20 rounded-2xl bg-[#1C3461] hidden lg:block"
+             style="box-shadow:0 12px 40px rgba(28,52,97,.28);"></div>
+        <div class="relative rounded-2xl overflow-hidden aspect-square max-w-full"
+             style="box-shadow:0 24px 80px rgba(28,52,97,.18),0 8px 24px rgba(28,52,97,.1);">
+          <img src="brand_assets/680.680.png" alt="IB Marketing — Built on Strategy, Driven by Results"
+               class="w-full h-full object-cover">
+        </div>
+        <!-- Floating stat card -->
+        <div class="absolute -bottom-8 -right-6 rounded-2xl p-6"
+             style="background:#E8441A;box-shadow:0 20px 60px rgba(232,68,26,.38);">
+          <div style="font-family:'Montserrat',sans-serif;font-size:2.5rem;font-weight:900;color:#fff;line-height:1;">4+</div>
+          <div style="color:rgba(255,255,255,.75);font-size:.8125rem;font-weight:600;margin-top:4px;line-height:1.4;">Years Delivering<br>Excellence</div>
+        </div>
+      </div>
+
+      <!-- Right: content -->
+      <div class="order-1 lg:order-2">
+        <span class="section-label">About IB Marketing</span>
+        <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4vw,2.9rem);font-weight:900;color:#1C3461;letter-spacing:-.03em;line-height:1.1;margin-bottom:24px;">
+          Built on Strategy.<br>Driven by Results.
+        </h2>
+        <p style="color:#6b7280;font-size:1.0625rem;line-height:1.75;margin-bottom:20px;">
+          Ibrahim Marketing was founded on a simple belief: great marketing isn't about noise — it's about the right message, to the right person, at the right time.
+        </p>
+        <p style="color:#6b7280;line-height:1.75;margin-bottom:32px;">
+          We combine creative excellence with data intelligence to help brands across the globe dominate their markets. Every campaign we run is tied directly to real business outcomes.
+        </p>
+
+        <div style="margin-bottom:32px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <div class="check-dot"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span style="color:#1C3461;font-weight:600;font-size:.9375rem;">Dedicated senior strategist on every account</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <div class="check-dot"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span style="color:#1C3461;font-weight:600;font-size:.9375rem;">Weekly reporting with full transparency</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <div class="check-dot"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span style="color:#1C3461;font-weight:600;font-size:.9375rem;">No long-term lock-in contracts</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="check-dot"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span style="color:#1C3461;font-weight:600;font-size:.9375rem;">Results-first, not deliverables-first mindset</span>
+          </div>
+        </div>
+
+        <!-- Founder card -->
+        <div style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:#F8F7F5;border-radius:16px;border:1px solid rgba(28,52,97,.08);box-shadow:0 4px 16px rgba(28,52,97,.07);margin-bottom:32px;">
+          <img src="brand_assets/my_img.png" alt="Ibrahim — Founder" style="width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0;border:2px solid #E8441A;">
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:800;color:#1C3461;font-size:1rem;">Ibrahim</div>
+            <div style="color:#E8441A;font-size:.8125rem;font-weight:600;margin-top:2px;">Founder &amp; CEO, IB Marketing</div>
+            <div style="color:#6b7280;font-size:.8125rem;margin-top:4px;font-style:italic;">"Every brand has a story worth telling at scale."</div>
+          </div>
+        </div>
+
+        <a href="#demo-form" class="btn-primary">Work With Us &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     STATS + ACTUAL RESULTS
+═══════════════════════════════════════════════════════════════ -->
+<section id="results" class="bg-[#1C3461] relative overflow-hidden dot-grid">
+
+  <!-- Stats numbers -->
+  <div class="relative py-24">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-15"
+           style="background:radial-gradient(circle,#E8441A,transparent 70%);"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 rounded-full opacity-12"
+           style="background:radial-gradient(circle,#1E5FA8,transparent 70%);"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="section-label" style="color:#E8441A;">Proven Performance</span>
+        <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:#fff;letter-spacing:-.03em;">
+          Numbers That Speak<br>For Themselves
+        </h2>
+      </div>
+      <div class="grid grid-cols-3 max-w-3xl mx-auto gap-8">
+        <div class="text-center lg:px-8">
+          <div style="font-family:'Montserrat',sans-serif;font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;color:#fff;line-height:1;">
+            30<span style="color:#E8441A;">+</span>
+          </div>
+          <div style="color:rgba(255,255,255,.45);font-size:.8rem;font-weight:600;margin-top:10px;letter-spacing:.04em;text-transform:uppercase;">Brands Scaled</div>
+        </div>
+        <div class="text-center lg:px-8">
+          <div style="font-family:'Montserrat',sans-serif;font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;color:#fff;line-height:1;">
+            4<span style="color:#E8441A;">+</span>
+          </div>
+          <div style="color:rgba(255,255,255,.45);font-size:.8rem;font-weight:600;margin-top:10px;letter-spacing:.04em;text-transform:uppercase;">Years of Excellence</div>
+        </div>
+        <div class="text-center lg:px-8">
+          <div style="font-family:'Montserrat',sans-serif;font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;color:#fff;line-height:1;">
+            $10M<span style="color:#E8441A;">+</span>
+          </div>
+          <div style="color:rgba(255,255,255,.45);font-size:.8rem;font-weight:600;margin-top:10px;letter-spacing:.04em;text-transform:uppercase;">Revenue Generated</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Actual Results Gallery ── -->
+  <div class="relative border-t border-white/10 pb-28 pt-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <span class="section-label" style="color:#E8441A;">Real Campaigns. Real Numbers.</span>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:900;color:#fff;letter-spacing:-.03em;">
+          Our Work in Action
+        </h3>
+      </div>
+
+      <!-- Platform tabs -->
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:36px;">
+        <button class="platform-tab active" onclick="showPlatform('google',this)">
+          📊 Google Ads
+        </button>
+        <button class="platform-tab" onclick="showPlatform('facebook',this)">
+          📘 Facebook Ads
+        </button>
+        <button class="platform-tab" onclick="showPlatform('snapchat',this)">
+          👻 Snapchat Ads
+        </button>
+        <button class="platform-tab" onclick="showPlatform('seo',this)">
+          🔍 SEO Organic
+        </button>
+      </div>
+
+      <!-- Google Ads Panel -->
+      <div id="panel-google" class="platform-panel active">
+        <div class="grid md:grid-cols-3 gap-5">
+          <div class="result-img" onclick="openLightbox('brand_assets/google_ads1.png')">
+            <img src="brand_assets/google_ads1.png" alt="Google Ads Result 1">
+          </div>
+          <div class="result-img" onclick="openLightbox('brand_assets/google_ads2.png')">
+            <img src="brand_assets/google_ads2.png" alt="Google Ads Result 2">
+          </div>
+          <div class="result-img" onclick="openLightbox('brand_assets/google_ads3.png')">
+            <img src="brand_assets/google_ads3.png" alt="Google Ads Result 3">
+          </div>
+        </div>
+      </div>
+
+      <!-- Facebook Ads Panel -->
+      <div id="panel-facebook" class="platform-panel">
+        <div class="grid md:grid-cols-2 gap-5 max-w-3xl mx-auto">
+          <div class="result-img" onclick="openLightbox('brand_assets/fb_ads1.png')">
+            <img src="brand_assets/fb_ads1.png" alt="Facebook Ads Result 1">
+          </div>
+          <div class="result-img" onclick="openLightbox('brand_assets/fb_ads2.png')">
+            <img src="brand_assets/fb_ads2.png" alt="Facebook Ads Result 2">
+          </div>
+        </div>
+      </div>
+
+      <!-- Snapchat Ads Panel -->
+      <div id="panel-snapchat" class="platform-panel">
+        <div class="grid md:grid-cols-2 gap-5 max-w-3xl mx-auto">
+          <div class="result-img" onclick="openLightbox('brand_assets/sn_ads1.png')">
+            <img src="brand_assets/sn_ads1.png" alt="Snapchat Ads Result 1">
+          </div>
+          <div class="result-img" onclick="openLightbox('brand_assets/sn_ads2.png')">
+            <img src="brand_assets/sn_ads2.png" alt="Snapchat Ads Result 2">
+          </div>
+        </div>
+      </div>
+
+      <!-- SEO Panel -->
+      <div id="panel-seo" class="platform-panel">
+        <div class="max-w-2xl mx-auto">
+          <div class="result-img" onclick="openLightbox('brand_assets/@seo1.png')">
+            <img src="brand_assets/@seo1.png" alt="SEO Organic Result">
+          </div>
+        </div>
+      </div>
+
+      <p style="text-align:center;color:rgba(255,255,255,.4);font-size:.8125rem;margin-top:20px;">Click any image to view full size</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PROCESS
+═══════════════════════════════════════════════════════════════ -->
+<section id="process" class="py-28 bg-[#F8F7F5]">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-20">
+      <span class="section-label">How We Work</span>
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:#1C3461;letter-spacing:-.03em;line-height:1.1;">
+        Our Proven<br>4-Step Process
+      </h2>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="process-card p-8 text-center">
+        <div style="width:56px;height:56px;border-radius:50%;background:#E8441A;color:#fff;font-family:'Montserrat',sans-serif;font-size:1.375rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 8px 28px rgba(232,68,26,.38);">1</div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:12px;">Discover</h3>
+        <p style="color:#6b7280;font-size:.9rem;line-height:1.75;">Deep-dive into your brand, goals, competitors, and market opportunity.</p>
+      </div>
+      <div class="process-card p-8 text-center">
+        <div style="width:56px;height:56px;border-radius:50%;background:#1E5FA8;color:#fff;font-family:'Montserrat',sans-serif;font-size:1.375rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 8px 28px rgba(30,95,168,.38);">2</div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:12px;">Strategize</h3>
+        <p style="color:#6b7280;font-size:.9rem;line-height:1.75;">Build a bespoke roadmap with clear KPIs, timelines, and the right channel mix.</p>
+      </div>
+      <div class="process-card p-8 text-center">
+        <div style="width:56px;height:56px;border-radius:50%;background:#E8441A;color:#fff;font-family:'Montserrat',sans-serif;font-size:1.375rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 8px 28px rgba(232,68,26,.38);">3</div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:12px;">Execute</h3>
+        <p style="color:#6b7280;font-size:.9rem;line-height:1.75;">Launch campaigns with precision, creativity, and obsessive attention to detail.</p>
+      </div>
+      <div class="process-card p-8 text-center">
+        <div style="width:56px;height:56px;border-radius:50%;background:#1E5FA8;color:#fff;font-family:'Montserrat',sans-serif;font-size:1.375rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 8px 28px rgba(30,95,168,.38);">4</div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.125rem;font-weight:700;color:#1C3461;margin-bottom:12px;">Optimize</h3>
+        <p style="color:#6b7280;font-size:.9rem;line-height:1.75;">Continuously analyze, test, and improve to compound your results over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════════════════════ -->
+<section class="py-28 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-20">
+      <span class="section-label">Client Voices</span>
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:#1C3461;letter-spacing:-.03em;line-height:1.1;">
+        Trusted by Growth-<br>Minded Leaders
+      </h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="testi-light p-8">
+        <div style="color:#E8441A;font-size:1.1rem;letter-spacing:2px;margin-bottom:20px;">★★★★★</div>
+        <p style="color:#374151;line-height:1.75;font-size:.9375rem;font-style:italic;margin-bottom:28px;">"IB Marketing tripled our online leads in just 4 months. Their strategy was spot-on and the execution was flawless. Best investment we've made in years."</p>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;background:rgba(28,52,97,.1);flex-shrink:0;"><img src="https://placehold.co/44x44" alt="Sarah" style="width:100%;height:100%;object-fit:cover;"></div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:#1C3461;font-size:.9375rem;">Sarah Al-Rashid</div>
+            <div style="color:#9ca3af;font-size:.8125rem;margin-top:2px;">CEO, Lumina Tech</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-dark p-8">
+        <div style="color:#E8441A;font-size:1.1rem;letter-spacing:2px;margin-bottom:20px;">★★★★★</div>
+        <p style="color:rgba(255,255,255,.75);line-height:1.75;font-size:.9375rem;font-style:italic;margin-bottom:28px;">"The team at IB understands marketing at a deep level. Our brand awareness skyrocketed and our cost-per-acquisition dropped by 45%."</p>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,.12);flex-shrink:0;"><img src="https://placehold.co/44x44" alt="Marcus" style="width:100%;height:100%;object-fit:cover;"></div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:#fff;font-size:.9375rem;">Marcus Chen</div>
+            <div style="color:rgba(255,255,255,.45);font-size:.8125rem;margin-top:2px;">Founder, Apex Ventures</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-light p-8">
+        <div style="color:#E8441A;font-size:1.1rem;letter-spacing:2px;margin-bottom:20px;">★★★★★</div>
+        <p style="color:#374151;line-height:1.75;font-size:.9375rem;font-style:italic;margin-bottom:28px;">"Professional, responsive, and genuinely creative. IB Marketing revamped our entire digital presence and the impact has been transformative."</p>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;background:rgba(28,52,97,.1);flex-shrink:0;"><img src="https://placehold.co/44x44" alt="Fatima" style="width:100%;height:100%;object-fit:cover;"></div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:#1C3461;font-size:.9375rem;">Fatima Noor</div>
+            <div style="color:#9ca3af;font-size:.8125rem;margin-top:2px;">Marketing Director, Gulf Retail</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════════════════════════ -->
+<section class="py-28 bg-[#E8441A] relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute -top-32 right-0 w-[500px] h-[500px] rounded-full opacity-20" style="background:radial-gradient(circle,#fff,transparent 70%);"></div>
+    <div class="absolute -bottom-24 -left-12 w-[400px] h-[400px] rounded-full opacity-12" style="background:radial-gradient(circle,#1C3461,transparent 70%);"></div>
+  </div>
+  <div class="relative max-w-4xl mx-auto px-6 text-center">
+    <span class="section-label" style="color:rgba(255,255,255,.65);">Let's Work Together</span>
+    <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:900;color:#fff;letter-spacing:-.03em;line-height:1.05;margin-bottom:24px;">
+      Ready to Grow<br>Your Brand?
+    </h2>
+    <p style="font-size:1.125rem;color:rgba(255,255,255,.75);line-height:1.75;max-width:480px;margin:0 auto 44px;">
+      Book a free strategy call. No pressure, no fluff — just a clear, honest plan for your growth.
+    </p>
+    <a href="#demo-form" class="btn-white">Book Free Strategy Call &rarr;</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════════ -->
+<footer class="bg-[#0d1420] py-20">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+      <div class="lg:col-span-1">
+        <img src="brand_assets/dark background.png" alt="Ibrahim Marketing" class="h-14 w-auto mb-5">
+        <p style="color:#6b7280;font-size:.875rem;line-height:1.75;">
+          Marketing that moves businesses forward. Strategy, creativity, and execution — all under one roof.
+        </p>
+      </div>
+      <div>
+        <h4 style="font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;">Services</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+          <li><a href="#services" class="footer-link">Brand Strategy</a></li>
+          <li><a href="#services" class="footer-link">Digital Marketing</a></li>
+          <li><a href="#services" class="footer-link">Social Media</a></li>
+          <li><a href="#services" class="footer-link">Content Creation</a></li>
+          <li><a href="#services" class="footer-link">Paid Advertising</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;">Company</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+          <li><a href="#about"    class="footer-link">About Us</a></li>
+          <li><a href="#results"  class="footer-link">Results</a></li>
+          <li><a href="#process"  class="footer-link">Process</a></li>
+          <li><a href="#demo-form" class="footer-link">Get Started</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:700;color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;">Contact</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+          <li>
+            <a href="mailto:info@ibrahim-marketing.com" class="footer-link" style="display:flex;align-items:center;gap:8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              info@ibrahim-marketing.com
+            </a>
+          </li>
+          <li>
+            <a href="tel:+16474909182" class="footer-link" style="display:flex;align-items:center;gap:8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              +1 647 490 9182
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:32px;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:space-between;" class="sm:flex-row">
+      <p style="color:#4b5563;font-size:.8125rem;">© 2025 Ibrahim Marketing. All rights reserved.</p>
+      <div style="display:flex;gap:24px;">
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Google Apps Script endpoint ─────────────────────────────
+     Replace the empty string with your deployed Apps Script URL.
+     See the setup instructions in the HTML comment at the top.
+  ──────────────────────────────────────────────────────────── */
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHutBQKYT_8I8ycWIX7PCdAfpm8gNL9jp3jZ2YCI-nb-yvvWiRq3beE3r-Sit-IHRt/exec';
+
+  /* ── Form submission ──────────────────────────────────────── */
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn  = document.getElementById('submit-btn');
+    const fd = new FormData(form);
+    const data = {
+      name:     (fd.get('name')     || '').trim(),
+      phone:    (fd.get('phone')    || '').trim(),
+      email:    (fd.get('email')    || '').trim(),
+      company:  (fd.get('company')  || '').trim(),
+      industry: (fd.get('industry') || '').trim(),
+      message:  (fd.get('message')  || '').trim()
+    };
+
+    // Basic validation
+    if (!data.name || !data.phone || !data.email || !data.company || !data.industry) {
+      form.querySelectorAll('input[required]').forEach(el => {
+        if (!el.value.trim()) el.style.borderColor = '#E8441A';
+      });
+      return;
+    }
+
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    if (!APPS_SCRIPT_URL) {
+      // Script URL not configured — still redirect so user sees thank you page
+      console.warn('APPS_SCRIPT_URL not set. Configure it to enable Google Sheets logging.');
+      window.location.href = 'thankyou.html';
+      return;
+    }
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (_) { /* no-cors mode doesn't return a readable response — this is expected */ }
+
+    window.location.href = 'thankyou.html';
+  }
+
+  /* ── Nav scroll behaviour ─────────────────────────────────── */
+  const navbar  = document.getElementById('navbar');
+  const navLogo = document.getElementById('nav-logo');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      navbar.classList.add('scrolled');
+      navLogo.src = 'brand_assets/Light Background.png';
+    } else {
+      navbar.classList.remove('scrolled');
+      navLogo.src = 'brand_assets/dark background.png';
+    }
+  }, { passive: true });
+
+  /* ── Mobile menu ──────────────────────────────────────────── */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconMenu   = document.getElementById('icon-menu');
+  const iconClose  = document.getElementById('icon-close');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    iconMenu.classList.toggle('hidden', open);
+    iconClose.classList.toggle('hidden', !open);
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    iconMenu.classList.remove('hidden');
+    iconClose.classList.add('hidden');
+  }));
+
+  /* ── Smooth scroll ────────────────────────────────────────── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ── Results platform tabs ────────────────────────────────── */
+  function showPlatform(id, btn) {
+    document.querySelectorAll('.platform-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.platform-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  /* ── Lightbox ─────────────────────────────────────────────── */
+  const lightbox     = document.getElementById('lightbox');
+  const lightboxImg  = document.getElementById('lightbox-img');
+  const lightboxClose = document.getElementById('lightbox-close');
+  function openLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  /* ── Form input reset border on change ───────────────────── */
+  document.querySelectorAll('.form-input').forEach(el => {
+    el.addEventListener('input', () => el.style.borderColor = '');
+  });
+</script>
+
+</body>
+</html>

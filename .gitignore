@@ -1,0 +1,4 @@
+temporary screenshots/
+*.py
+__pycache__/
+.claude/
