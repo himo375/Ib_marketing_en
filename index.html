@@ -953,20 +953,25 @@
     btn.textContent = 'Sending…';
     btn.disabled = true;
 
-    if (!APPS_SCRIPT_URL) {
-      window.location.href = 'thankyou.html';
-      return;
-    }
+    // Hidden iframe method — bypasses all CORS/browser issues
+    const iframe = document.createElement('iframe');
+    iframe.name = '_gs_submit';
+    iframe.style.cssText = 'display:none;position:absolute;';
+    document.body.appendChild(iframe);
 
-    try {
-      // GET + URLSearchParams: the most reliable method for Google Apps Script
-      const params = new URLSearchParams(data);
-      await fetch(APPS_SCRIPT_URL + '?' + params.toString(), {
-        method: 'GET',
-        mode: 'no-cors'
-      });
-    } catch (_) { /* no-cors — expected, response is opaque */ }
+    const tempForm = document.createElement('form');
+    tempForm.method = 'GET';
+    tempForm.action = APPS_SCRIPT_URL;
+    tempForm.target = '_gs_submit';
+    Object.entries(data).forEach(([k, v]) => {
+      const inp = document.createElement('input');
+      inp.type = 'hidden'; inp.name = k; inp.value = v;
+      tempForm.appendChild(inp);
+    });
+    document.body.appendChild(tempForm);
+    tempForm.submit();
 
+    await new Promise(r => setTimeout(r, 1200));
     window.location.href = 'thankyou.html';
   }
 
