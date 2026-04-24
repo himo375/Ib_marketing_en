@@ -954,20 +954,18 @@
     btn.disabled = true;
 
     if (!APPS_SCRIPT_URL) {
-      // Script URL not configured — still redirect so user sees thank you page
-      console.warn('APPS_SCRIPT_URL not set. Configure it to enable Google Sheets logging.');
       window.location.href = 'thankyou.html';
       return;
     }
 
     try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+      // GET + URLSearchParams: the most reliable method for Google Apps Script
+      const params = new URLSearchParams(data);
+      await fetch(APPS_SCRIPT_URL + '?' + params.toString(), {
+        method: 'GET',
+        mode: 'no-cors'
       });
-    } catch (_) { /* no-cors mode doesn't return a readable response — this is expected */ }
+    } catch (_) { /* no-cors — expected, response is opaque */ }
 
     window.location.href = 'thankyou.html';
   }
